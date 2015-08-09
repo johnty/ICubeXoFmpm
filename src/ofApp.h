@@ -26,9 +26,8 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         ofxICubeX myICubeX;
+        int sensorVal;
     
         Network yarp;
         BufferedPort<Bottle> port;
-
-		
 };

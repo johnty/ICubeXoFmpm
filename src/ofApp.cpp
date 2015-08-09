@@ -14,18 +14,37 @@ void ofApp::setup(){
     
     yarp.init();
     port.open("/I-CubeX");
+    
+    ofSetWindowShape(400, 300);
+    ofSetFrameRate(60);
 }
+
+
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    int currVal = myICubeX.getSensorData(0);
-    yarp::os::Bottle
-
+    
+    sensorVal = myICubeX.getSensorData(0);
+    yarp::os::Bottle* bot;
+    bot = &port.prepare();
+    bot->clear();
+    bot->add(sensorVal);
+    port.write();
+    ofSleepMillis(5);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    ofBackground(0, 0, 0); //set background to black
+    float x = ofGetWidth()/2;
+    float y = ofGetHeight()/2;
+    
+    ofSetCircleResolution(120);
+    ofSetColor(200, 200, 200); //set drawing colour to grey-ish white
+    ofCircle(x, y, 10+1.5*sensorVal); // draw a circle proportional to sensor value
+    
+    string some_text = "sensor 0 val = " + ofToString(sensorVal);
+    ofDrawBitmapString(some_text, 10, 10);
 }
 
 //--------------------------------------------------------------
